@@ -8,7 +8,7 @@ def insert_chunks_from_file(pdf_path):
     chunks = [str(part) for part in partitions]
     data_objects = [{"content": chunk, "source": pdf_path} for chunk in chunks]
     
-    client.batch.configure(batch_size=100)
+    # client.batch.configure(batch_size=100)
     with client.batch as batch:
         for data_object in data_objects:
             batch.add_data_object(data_object, "Document")
