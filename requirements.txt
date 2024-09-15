@@ -2,3 +2,4 @@ streamlit
 weaviate-client
 unstructured
 pdfminer.six
+pi_heif
