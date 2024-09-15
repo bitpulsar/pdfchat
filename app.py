@@ -8,10 +8,14 @@ def insert_chunks_from_file(pdf_path):
     chunks = [str(part) for part in partitions]
     data_objects = [{"content": chunk, "source": pdf_path} for chunk in chunks]
     
-    # client.batch.configure(batch_size=100)
-    with client.batch as batch:
-        for data_object in data_objects:
-            batch.add_data_object(data_object, "Document")
+     # Manually handle the batch process
+    client.batch.configure(batch_size=100)  # If needed, configure batch size
+
+    for data_object in data_objects:
+       client.batch.add_data_object(data_object, "Document")
+
+    # Flush the batch to ensure all data is written
+    client.batch.flush()
 
 # def perform_search(query, prompt):
 #     response = client.query.get("Document", ["content", "source"]) \
