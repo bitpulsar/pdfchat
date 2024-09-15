@@ -2,6 +2,7 @@
 import streamlit as st
 from init_collection import get_client, create_collection
 # can separate into multiple functions for cleaner code.
+from unstructured.partition.pdf import partition_pdf
 def insert_chunks_from_file(pdf_path):
     partitions = partition_pdf(pdf_path)
     chunks = [str(part) for part in partitions]
@@ -49,7 +50,7 @@ if uploaded_file:
   insert_chunks_from_file(save_path)
   st.success(f"Inserted chunks from {uploaded_file.name}")
 
-  from unstructured.partition.pdf import partition_pdf
+ 
 
 st.header("Search Your Documents")
 query = st.text_input("Enter your search query")
