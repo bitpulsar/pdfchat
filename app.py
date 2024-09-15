@@ -3,6 +3,13 @@ import streamlit as st
 from init_collection import get_client, create_collection
 # can separate into multiple functions for cleaner code.
 from unstructured.partition.pdf import partition_pdf
+
+
+# Connect to Weaviate
+client = get_client()
+create_collection(client)  # Ensure the collection is created
+
+
 def insert_chunks_from_file(pdf_path):
     partitions = partition_pdf(pdf_path)
     chunks = [str(part) for part in partitions]
@@ -38,10 +45,6 @@ openai_key = st.secrets["default"]["OPENAI_API_KEY"]
 wcd_api_key = st.secrets["default"]["WCD_API_KEY"]
 wcd_url = st.secrets["default"]["WCD_URL"]
 
-# Connect to Weaviate
-client = get_client()
-create_collection(client)  # Ensure the collection is created
-
 st.header("Upload and Process PDF")
 uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
 if uploaded_file:
@@ -50,9 +53,7 @@ if uploaded_file:
     f.write(uploaded_file.getbuffer())
   insert_chunks_from_file(save_path)
   client.close()
-  st.success(f"Inserted chunks from {uploaded_file.name}")
-
- 
+  st.success(f"Inserted chunks from {uploaded_file.name}") 
 
 st.header("Search Your Documents")
 query = st.text_input("Enter your search query")
