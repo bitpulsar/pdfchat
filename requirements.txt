@@ -4,3 +4,4 @@ unstructured
 pdfminer.six
 pi_heif
 unstructured_inference
+pytesseract
