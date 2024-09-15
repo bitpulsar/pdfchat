@@ -48,6 +48,7 @@ if uploaded_file:
   with open(save_path, "wb") as f:
     f.write(uploaded_file.getbuffer())
   insert_chunks_from_file(save_path)
+  client.close()
   st.success(f"Inserted chunks from {uploaded_file.name}")
 
  
