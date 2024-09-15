@@ -4,20 +4,24 @@ import weaviate
 import streamlit as st
 import weaviate.classes.config as wc
 
-openai_key = st.secrets["default"]["OPENAI_API_KEY"]
-wcd_api_key = st.secrets["default"]["WCD_API_KEY"]
-wcd_url = st.secrets["default"]["WCD_URL"]
+def get_client():
 
-# Connect to Weaviate
-client = weaviate.connect_to_weaviate_cloud(
-    cluster_url=wcd_url,
-    auth_credentials=weaviate.auth.AuthApiKey(wcd_api_key),
-    headers={
-        "X-OpenAI-Api-Key": openai_key
-    }
-)
+    openai_key = st.secrets["default"]["OPENAI_API_KEY"]
+    wcd_api_key = st.secrets["default"]["WCD_API_KEY"]
+    wcd_url = st.secrets["default"]["WCD_URL"]
+
+    # Connect to Weaviate
+    client = weaviate.connect_to_weaviate_cloud(
+        cluster_url=wcd_url,
+        auth_credentials=weaviate.auth.AuthApiKey(wcd_api_key),
+        headers={
+            "X-OpenAI-Api-Key": openai_key
+        }
+    )
+    return client
+
 # Function to create collection
-def create_collection():
+def create_collection(client):
     if not client.collections.exists("Document"):
         collection_of_docs = client.collections.create(
             name="Document",
