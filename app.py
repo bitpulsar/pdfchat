@@ -4,11 +4,9 @@ from init_collection import get_client, create_collection
 # can separate into multiple functions for cleaner code.
 from unstructured.partition.pdf import partition_pdf
 
-
 # Connect to Weaviate
 client = get_client()
 create_collection(client)  # Ensure the collection is created
-
 
 def insert_chunks_from_file(pdf_path):
     partitions = partition_pdf(pdf_path)
@@ -45,8 +43,8 @@ openai_key = st.secrets["default"]["OPENAI_API_KEY"]
 wcd_api_key = st.secrets["default"]["WCD_API_KEY"]
 wcd_url = st.secrets["default"]["WCD_URL"]
 
-st.header("Upload and Process PDF")
-uploaded_file = st.file_uploader("Choose a PDF file", type="pdf")
+st.header("Załaduj i przetwórz PDF")
+uploaded_file = st.file_uploader("Wybierz plik PDF", type="pdf")
 if uploaded_file:
   save_path = f"/tmp/{uploaded_file.name}"
   with open(save_path, "wb") as f:
@@ -55,14 +53,14 @@ if uploaded_file:
   client.close()
   st.success(f"Inserted chunks from {uploaded_file.name}") 
 
-st.header("Search Your Documents")
-query = st.text_input("Enter your search query")
-prompt = st.text_input("Enter your search prompt")
+st.header("Przeszukaj dokument PDF")
+query = st.text_input("Wpisz swoje zapytanie")
+prompt = st.text_input("Wpisz prompt, któgo poszukujesz")
 
-if st.button("Perform Search"):
+if st.button("Szukaj"):
   if query and prompt:
     search_results = perform_search(query, prompt)
-    st.write("Search Results:")
+    st.write("Wyniki wyszukiwania:")
     st.write(search_results.generated)
 else:
-  st.error("Please enter both query and prompt.")
+  st.error("Prosze podać zapytanie oraz promt.")
