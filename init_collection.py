@@ -4,6 +4,10 @@ import weaviate
 import streamlit as st
 import weaviate.classes.config as wc
 
+openai_key = st.secrets["default"]["OPENAI_API_KEY"]
+wcd_api_key = st.secrets["default"]["WCD_API_KEY"]
+wcd_url = st.secrets["default"]["WCD_URL"]
+
 # Connect to Weaviate
 client = weaviate.connect_to_weaviate_cloud(
     cluster_url=wcd_url,
